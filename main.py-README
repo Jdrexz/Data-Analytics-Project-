@@ -1,0 +1,10 @@
+# Data Analytics — Sales EDA
+This project performs exploratory data analysis on a sales dataset, including cleaning, aggregation, and a summary CSV report. It uses pandas for data manipulation and matplotlib for a simple visualization.
+
+**How to run**
+1. `pip install -r requirements.txt`
+2. `python main.py`
+
+**Customize**
+- Replace `data/sample_sales.csv` with your dataset and update `RAW_CSV` variable.
+- Update cleaning logic in `clean_data()` to reflect your real columns and rules.
