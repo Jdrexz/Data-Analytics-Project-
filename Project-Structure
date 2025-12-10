@@ -1,0 +1,11 @@
+retail-sales-analytics/
+│── data/
+│   └── sales_data.csv
+│── notebooks/
+│   └── exploratory_analysis.ipynb
+│── src/
+│   ├── clean_data.py
+│   ├── analyze_data.py
+│   └── visualize_data.py
+│── README.md
+│── requirements.txt
