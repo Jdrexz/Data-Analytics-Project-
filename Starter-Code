@@ -1,0 +1,63 @@
+generate_data.py
+
+import pandas as pd
+
+def clean_sales_data(input_path="data/sales_data.csv", output_path="data/cleaned_sales.csv"):
+    df = pd.read_csv(input_path)
+
+    # Remove duplicates
+    df = df.drop_duplicates()
+
+    # Handle missing values
+    df["Quantity"].fillna(0, inplace=True)
+    df["Price"].fillna(df["Price"].median(), inplace=True)
+
+    # Create revenue column
+    df["Revenue"] = df["Quantity"] * df["Price"]
+
+    df.to_csv(output_path, index=False)
+    print("Data cleaned and saved to:", output_path)
+
+if __name__ == "__main__":
+    clean_sales_data()
+
+
+fraud_rules.py
+
+import pandas as pd
+
+def apply_fraud_rules(df):
+    df["Fraud_Score"] = 0
+
+    # Rule 1: Missing or invalid license
+    df.loc[df["License_Number"] != "Valid", "Fraud_Score"] += 40
+
+    # Rule 2: Suspicious income patterns
+    df.loc[df["Income"] < 25000, "Fraud_Score"] += 20
+
+    # Rule 3: Duplicate applications
+    df.loc[df["Duplicate_Entry"] == 1, "Fraud_Score"] += 50
+
+    # Flag fraud if score >= 60
+    df["Is_Fraud"] = df["Fraud_Score"] >= 60
+
+    return df
+
+
+run_detection.py
+
+import pandas as pd
+from fraud_rules import apply_fraud_rules
+
+def detect_fraud(input_path="data/synthetic_applicants.csv", output_path="data/fraud_results.csv"):
+    df = pd.read_csv(input_path)
+
+    df = apply_fraud_rules(df)
+
+    df.to_csv(output_path, index=False)
+
+    print("Fraud detection completed. Output saved to:", output_path)
+    print("Total Fraud Cases:", df["Is_Fraud"].sum())
+
+if __name__ == "__main__":
+    detect_fraud()
